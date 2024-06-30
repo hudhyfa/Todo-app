@@ -2,7 +2,7 @@ import { Todo } from "./Todo";
 
 export function TodoList({ todos, toggleTodo, deleteTodo }) {
   return (
-    <>
+    <div className="TodoList-box">
       <h2 className="todo-header">Todo List</h2>
       {todos.length === 0 && "Add task to finish..."}
       <ul className="todo-lists">
@@ -17,6 +17,6 @@ export function TodoList({ todos, toggleTodo, deleteTodo }) {
           );
         })}
       </ul>
-    </>
+    </div>
   );
 }

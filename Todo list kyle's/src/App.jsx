@@ -1,7 +1,8 @@
 import './style.css';
 import { TodoList } from './TodoList';
 import { TodoForm } from './todoForm';
-import { useState, useEffect } from 'react';
+import { Navbar } from './Navbar';
+import { useState, useEffect, useRef } from 'react';
 
 export default function App() {
 
@@ -10,6 +11,14 @@ export default function App() {
         if(todoTasks === null) return [];
         return JSON.parse(todoTasks);
     });
+
+    const count = useRef(todos.length);
+  
+    useEffect(() => {
+        localStorage.setItem('TASKS', JSON.stringify(todos));
+        count.current = todos.length;
+        alert("your task count is " + count.current);
+    }, [todos]);
 
     const toggleTodo = (id, completed) => {
         setTodos( currentTodos => {
@@ -22,15 +31,13 @@ export default function App() {
         })
     }
 
-    useEffect(() => {
-        localStorage.setItem('TASKS', JSON.stringify(todos));
-    }, [todos]);
 
     const deleteTodo = (id) => {
         setTodos((currentTodos) => {
             return currentTodos.filter(currentTodo => currentTodo.id != id);
         })
     }
+
 
     const addTodo = (title) => {
         setTodos((currentTodos) => {
@@ -43,8 +50,11 @@ export default function App() {
 
     return (
         <>
-            <TodoForm onSubmittingForm = { addTodo }/>
-            <TodoList todos = { todos } toggleTodo={ toggleTodo } deleteTodo={ deleteTodo } />
+            <Navbar />
+            <div className="container">
+                <TodoForm onSubmittingForm = { addTodo }/>
+                <TodoList todos = { todos } toggleTodo={ toggleTodo } deleteTodo={ deleteTodo } />
+            </div>
         </>
             
     )
